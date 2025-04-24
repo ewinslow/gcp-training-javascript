@@ -57,21 +57,29 @@ Once it's running you can curl against localhost:9090 and see the response
 Uploading to Artifact Registry (replace the capitals vars):
 ```
 # authenticate
-gcloud auth configure-docker YOUR_REGION-docker.pkg.dev
+gcloud auth configure-docker us-west2-docker.pkg.dev
 
 # build your image
-docker buildx build --platform linux/amd64 -t YOUR_REGION-docker.pkg.dev/GCP_PROJECT_NAME/YOUR_REPO_NAME/gcp-training-javascript .
+docker buildx build --platform linux/amd64 -t us-west2-docker.pkg.dev/ewinslow-cdks2/hello-world/gcp-training-javascript .
 
 # push image
-docker push YOUR_REGION-docker.pkg.dev/GCP_PROJECT_NAME/YOUR_REPO_NAME/gcp-training-javascript
+docker push us-west2-docker.pkg.dev/ewinslow-cdks2/hello-world/gcp-training-javascript
 ```
 
 Deploy to Cloud Run:
 ```
 gcloud run deploy gcp-training-javascript \
-  --image YOUR_REGION-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPO_NAME/gcp-training-javascript:latest \
-  --region YOUR_REGION \
+  --image us-west2-docker.pkg.dev/ewinslow-cdks2/hello-world/gcp-training-javascript:latest \
+  --region us-west2 \
   --allow-unauthenticated
 ```
 
 Once deployed, gcloud will output the Service URL. You can access your running application at this URL.
+
+
+## CI/CD
+
+* On push to main
+  * build artifact
+  * upload to artifact registry
+  * deploy artifact to prod
